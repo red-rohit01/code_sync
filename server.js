@@ -2,11 +2,20 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const path = require('path');
-const { Server } = require('socket.io');
+const cors = require('cors');
+const { Server } = require('socket.io');   
+// const { socketIo } = require('socket.io')(http, {                   // Example for cors in SocketIo
+//     cors: {
+//         origin: "*"
+//     }
+// });
 const ACTIONS = require('./src/Actions');
 
 const server = http.createServer(app);
 const io = new Server(server);
+
+// const io = new Server(res.socket.server,{ path: './src/socket',addTrailingSlash: false });
+// res.socket.server.io = io;
 
 app.use(express.static('build'));
 app.use((req, res, next) => {
@@ -63,3 +72,4 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
